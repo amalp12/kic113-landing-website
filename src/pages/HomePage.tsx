@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FeaturedServices from "../components/sections/FeaturedServices";
 import HeroSection from "../components/sections/HeroSection";
+import WhoCanUse from "../components/sections/WhoCanUse";
 import { useTheme } from "@/context/ThemeContext";
 interface LatestInsightsProps {
   onBlogClick: (postId: number) => void;
@@ -319,6 +320,7 @@ const HomePage = () => {
     <>
       <HeroSection />
       <FeaturedServices />
+      <WhoCanUse />
       <LatestInsights onBlogClick={(id) => navigate(`/blog/${id}`)} />
       <TestimonialSlider />
     </>

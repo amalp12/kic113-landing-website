@@ -17,8 +17,8 @@ const services: Service[] = [
     features: [
       "Automated Hazard Analysis",
       "Real-time Regulation Monitoring",
-      "Compliance Documentation",
-      "Supply Chain Traceability",
+      "Compliance AI Assistant",
+      "Compliance Update Notifications",
     ],
   },
   {
