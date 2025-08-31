@@ -1,12 +1,19 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
-import { blogPosts } from "../constants/blog";
-import { useTheme } from "@/context/ThemeContext";
+import { useNavigate } from "react-router-dom";
+import { blogPosts, BlogPost } from "../constants/blog";
+import { useTheme } from "../context/ThemeContext";
 
-const BlogPage = ({ navigate, onBlogClick }) => {
+const BlogPage = () => {
+  const navigate = useNavigate();
+  
   const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState("all");
+  
+  const handleBlogClick = (postId: number) => {
+    navigate(`/blog/${postId}`);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -57,13 +64,16 @@ const BlogPage = ({ navigate, onBlogClick }) => {
         initial="hidden"
         animate="visible"
       >
-        {blogPosts.map((post) => (
+        {blogPosts.map((post: BlogPost) => (
           <motion.div
             key={post.id}
             variants={cardVariants}
             whileHover={{ scale: 1.05, boxShadow: glow }}
             className={`group relative overflow-hidden rounded-xl border-2 border-transparent transition-all duration-300 cursor-pointer`}
-            onClick={() => onBlogClick(post.id)}
+            onClick={(e) => {
+              e.preventDefault();
+              handleBlogClick(post.id);
+            }}
           >
             <div
               className={`p-6 rounded-xl transition-colors duration-300 ${cardBg}`}

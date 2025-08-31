@@ -1,5 +1,6 @@
-import { useTheme } from "@/context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   ChevronLeft,
   Clipboard,
@@ -7,20 +8,27 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
+import { BlogPost } from "../constants/blog";
 
-const BlogDetailPage = ({ post, navigate }) => {
+interface BlogDetailPageProps {
+  post: Omit<BlogPost, 'id'>;
+  onBack: () => void;
+}
+
+const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ post, onBack }) => {
   const { theme } = useTheme();
+  const navigate = useNavigate();
+  
   if (!post) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
-        <h1 className="text-3xl text-text-primary">Blog post not found.</h1>
+        <h1 className={`text-3xl ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Blog post not found.</h1>
         <button
-          onClick={() => navigate("blog")}
-          className={`mt-4 px-4 py-2 rounded-lg transition-colors duration-300
-          ${
+          onClick={onBack}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors duration-300 ${
             theme === "dark"
-              ? "bg-cyan-600 text-white"
-              : "bg-cyan-600 text-white"
+              ? "bg-cyan-600 text-white hover:bg-cyan-700"
+              : "bg-cyan-600 text-white hover:bg-cyan-700"
           }`}
         >
           Go Back

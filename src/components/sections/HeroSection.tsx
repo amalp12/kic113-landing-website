@@ -1,14 +1,11 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AnimatedBackground from "../AnimatedBackground";
-
 import { Variants } from "framer-motion";
 
-interface HeroSectionProps {
-  navigate: (path: string) => void;
-}
-
-const HeroSection: React.FC<HeroSectionProps> = ({ navigate }) => {
+const HeroSection = () => {
+  const navigate = useNavigate();
   const tagline =
     "AI for Food Brands: Revolutionizing Food Safety & Consumer Engagement";
   const introText =

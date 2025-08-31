@@ -3,10 +3,15 @@ import { testimonials } from "@/constants/testimonials";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FeaturedServices from "../components/sections/FeaturedServices";
 import HeroSection from "../components/sections/HeroSection";
 import { useTheme } from "@/context/ThemeContext";
-const LatestInsights = ({ navigate, onBlogClick }) => {
+interface LatestInsightsProps {
+  onBlogClick: (postId: number) => void;
+}
+
+const LatestInsights: React.FC<LatestInsightsProps> = ({ onBlogClick }) => {
   const { theme } = useTheme();
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -97,10 +102,32 @@ const LatestInsights = ({ navigate, onBlogClick }) => {
   );
 };
 
+interface Testimonial {
+  quote: string;
+  author: string;
+  featured: boolean;
+  role?: string;
+  company?: string;
+}
+
 const TestimonialSlider = () => {
   const { theme } = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const sliderRef = useRef(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  const handleDragEnd = (e: any, info: { offset: { x: number } }) => {
+    if (info.offset) {
+      const { offset } = info;
+      if (Math.abs(offset.x) > 50) {
+        if (offset.x < 0) {
+          goToNext();
+        } else {
+          goToPrev();
+        }
+      }
+    }
+  };
 
   const cardBg = theme === "dark" ? "bg-gray-900" : "bg-white";
   const cardBorder = theme === "dark" ? "border-gray-700" : "border-gray-300";
@@ -128,7 +155,7 @@ const TestimonialSlider = () => {
     animate: {
       x: `-${currentIndex * 100}%`,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 150,
         damping: 20,
       },
@@ -182,20 +209,12 @@ const TestimonialSlider = () => {
             animate="animate"
             drag="x"
             dragConstraints={{
-              left: -(testimonials.length - 1) * sliderRef.current?.offsetWidth,
+              left: -((testimonials.length - 1) * (sliderRef.current?.offsetWidth || 0)),
               right: 0,
             }}
-            onDragEnd={(e, { offset }) => {
-              if (Math.abs(offset.x) > 50) {
-                if (offset.x < 0) {
-                  goToNext();
-                } else {
-                  goToPrev();
-                }
-              }
-            }}
+            onDragEnd={handleDragEnd}
           >
-            {testimonials.map((testimonial, index) => (
+            {testimonials.map((testimonial: Testimonial, index) => (
               <motion.div
                 key={index}
                 className="w-full flex-shrink-0 px-8 py-12 relative group"
@@ -280,9 +299,7 @@ const TestimonialSlider = () => {
                       {testimonial.author}
                     </p>
                     {testimonial.role && (
-                      <p className="text-sm text-text-secondary mt-1">
-                        {testimonial.role}
-                      </p>
+                      <span className="block text-sm text-gray-400">{testimonial.role}</span>
                     )}
                   </div>
                 </div>
@@ -295,16 +312,17 @@ const TestimonialSlider = () => {
   );
 };
 
-const HomePage = ({ navigate }) => (
-  <>
-    <HeroSection navigate={navigate} />
-    <FeaturedServices />
-    <LatestInsights
-      navigate={navigate}
-      onBlogClick={(id) => navigate("blog-detail", { id })}
-    />
-    <TestimonialSlider />
-  </>
-);
+const HomePage = () => {
+  const navigate = useNavigate();
+  
+  return (
+    <>
+      <HeroSection />
+      <FeaturedServices />
+      <LatestInsights onBlogClick={(id) => navigate(`/blog/${id}`)} />
+      <TestimonialSlider />
+    </>
+  );
+};
 
 export default HomePage;
