@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useTheme } from '../../context/ThemeContext';
-import { testimonials } from '../../constants/testimonials';
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { testimonials } from "../../constants/testimonials";
+import { useTheme } from "../../context/ThemeContext";
 
 const TestimonialsSection: React.FC = () => {
   const { theme } = useTheme();
@@ -34,7 +34,7 @@ const TestimonialsSection: React.FC = () => {
 
   useEffect(() => {
     if (!isAutoPlaying) return;
-    
+
     const timer = setInterval(() => {
       nextSlide();
     }, 5000);
@@ -67,7 +67,7 @@ const TestimonialsSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
             className={`text-3xl md:text-4xl font-bold mb-4 ${
-              theme === 'dark' ? 'text-white' : 'text-gray-900'
+              theme === "dark" ? "text-white" : "text-gray-900"
             }`}
           >
             What Our Clients Say
@@ -78,7 +78,7 @@ const TestimonialsSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
             className={`text-xl max-w-2xl mx-auto ${
-              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+              theme === "dark" ? "text-gray-300" : "text-gray-600"
             }`}
           >
             Don't just take our word for it. Here's what our clients have to say
@@ -97,11 +97,11 @@ const TestimonialsSection: React.FC = () => {
                 animate="center"
                 exit="exit"
                 transition={{
-                  x: { type: 'spring', stiffness: 300, damping: 30 },
+                  x: { type: "spring", stiffness: 300, damping: 30 },
                   opacity: { duration: 0.2 },
                 }}
                 className={`p-8 rounded-2xl ${
-                  theme === 'dark' ? 'bg-gray-800/50' : 'bg-white shadow-lg'
+                  theme === "dark" ? "bg-gray-800/50" : "bg-white shadow-lg"
                 }`}
                 onMouseEnter={() => setIsAutoPlaying(false)}
                 onMouseLeave={() => setIsAutoPlaying(true)}
@@ -112,21 +112,23 @@ const TestimonialsSection: React.FC = () => {
                       <Star
                         key={i}
                         className={`w-6 h-6 ${
-                          theme === 'dark' ? 'text-yellow-400' : 'text-yellow-500'
+                          theme === "dark"
+                            ? "text-yellow-400"
+                            : "text-yellow-500"
                         } fill-current`}
                       />
                     ))}
                   </div>
                   <blockquote
                     className={`text-xl md:text-2xl font-medium mb-6 max-w-3xl mx-auto ${
-                      theme === 'dark' ? 'text-gray-200' : 'text-gray-800'
+                      theme === "dark" ? "text-gray-200" : "text-gray-800"
                     }`}
                   >
                     "{featuredTestimonials[currentIndex].quote}"
                   </blockquote>
                   <div
                     className={`text-lg font-semibold ${
-                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                      theme === "dark" ? "text-white" : "text-gray-900"
                     }`}
                   >
                     {featuredTestimonials[currentIndex].author}
@@ -139,9 +141,9 @@ const TestimonialsSection: React.FC = () => {
           <button
             onClick={prevSlide}
             className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 p-2 rounded-full ${
-              theme === 'dark'
-                ? 'text-gray-400 hover:text-white hover:bg-gray-800'
-                : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200'
+              theme === "dark"
+                ? "text-gray-400 hover:text-white hover:bg-gray-800"
+                : "text-gray-500 hover:text-gray-900 hover:bg-gray-200"
             } transition-colors`}
             aria-label="Previous testimonial"
           >
@@ -150,9 +152,9 @@ const TestimonialsSection: React.FC = () => {
           <button
             onClick={nextSlide}
             className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 p-2 rounded-full ${
-              theme === 'dark'
-                ? 'text-gray-400 hover:text-white hover:bg-gray-800'
-                : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200'
+              theme === "dark"
+                ? "text-gray-400 hover:text-white hover:bg-gray-800"
+                : "text-gray-500 hover:text-gray-900 hover:bg-gray-200"
             } transition-colors`}
             aria-label="Next testimonial"
           >
@@ -166,12 +168,12 @@ const TestimonialsSection: React.FC = () => {
                 onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full transition-all ${
                   currentIndex === index
-                    ? theme === 'dark'
-                      ? 'bg-cyan-500 scale-125'
-                      : 'bg-cyan-600 scale-125'
-                    : theme === 'dark'
-                    ? 'bg-gray-600 hover:bg-gray-500'
-                    : 'bg-gray-300 hover:bg-gray-400'
+                    ? theme === "dark"
+                      ? "bg-cyan-500 scale-125"
+                      : "bg-cyan-600 scale-125"
+                    : theme === "dark"
+                    ? "bg-gray-600 hover:bg-gray-500"
+                    : "bg-gray-300 hover:bg-gray-400"
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />
@@ -188,7 +190,7 @@ const TestimonialsSection: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`p-6 rounded-xl ${
-                theme === 'dark' ? 'bg-gray-800/50' : 'bg-white shadow-md'
+                theme === "dark" ? "bg-gray-800/50" : "bg-white shadow-md"
               }`}
             >
               <div className="flex mb-4">
@@ -196,21 +198,21 @@ const TestimonialsSection: React.FC = () => {
                   <Star
                     key={i}
                     className={`w-5 h-5 ${
-                      theme === 'dark' ? 'text-yellow-400' : 'text-yellow-500'
+                      theme === "dark" ? "text-yellow-400" : "text-yellow-500"
                     } fill-current`}
                   />
                 ))}
               </div>
               <p
                 className={`mb-4 ${
-                  theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                  theme === "dark" ? "text-gray-300" : "text-gray-600"
                 }`}
               >
                 "{testimonial.quote}"
               </p>
               <div
                 className={`text-sm font-medium ${
-                  theme === 'dark' ? 'text-cyan-400' : 'text-cyan-600'
+                  theme === "dark" ? "text-cyan-400" : "text-cyan-600"
                 }`}
               >
                 {testimonial.author}

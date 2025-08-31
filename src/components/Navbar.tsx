@@ -1,8 +1,5 @@
-import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Moon, Sun } from "lucide-react";
-import { useTheme } from "../context/ThemeContext";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { links } from "../constants/links";
 
 const Navbar = ({

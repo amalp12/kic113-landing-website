@@ -1,9 +1,6 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { services } from "../../constants/services";
-import { useTheme } from "../../context/ThemeContext";
-import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { services } from "../../constants/services";
 
 const ServiceCard = ({ service, index }) => {
   const theme = document.documentElement.className;

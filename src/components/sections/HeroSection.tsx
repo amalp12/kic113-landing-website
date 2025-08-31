@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { useTheme } from "../../context/ThemeContext";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const HeroSection = ({ navigate }) => {
   const tagline =
     "AI for Food Brands: Revolutionizing Food Safety & Consumer Engagement";
   const introText =
-    "Leverage cutting-edge AI to automate compliance, enhance transparency, and build lasting consumer trust. Our innovative solutions protect your brand and empower your business in a data-driven world.";
+    "Leeverage cutting-edge AI to automate compliance, enhance transparency, and build lasting consumer trust. Our innovative solutions protect your brand and empower your business in a data-driven world.";
   const [typedText, setTypedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
 

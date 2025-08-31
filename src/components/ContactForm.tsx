@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useTheme } from '../context/ThemeContext';
+import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 
 interface FormData {
   name: string;
@@ -19,10 +19,10 @@ interface FormErrors {
 const ContactForm: React.FC = () => {
   const { theme } = useTheme();
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,40 +33,42 @@ const ContactForm: React.FC = () => {
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
-    
+
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = "Name is required";
     }
-    
+
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = "Email is invalid";
     }
-    
+
     if (!formData.subject.trim()) {
-      newErrors.subject = 'Subject is required';
+      newErrors.subject = "Subject is required";
     }
-    
+
     if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
+      newErrors.message = "Message is required";
     } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters';
+      newErrors.message = "Message must be at least 10 characters";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({
@@ -78,44 +80,45 @@ const ContactForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setIsSubmitting(true);
     setSubmitStatus(null);
-    
+
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      
+
       // In a real app, you would send the form data to your backend
       // const response = await fetch('/api/contact', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify(formData),
       // });
-      
+
       // if (!response.ok) throw new Error('Failed to send message');
-      
+
       setSubmitStatus({
         success: true,
-        message: 'Your message has been sent successfully! We\'ll get back to you soon.',
+        message:
+          "Your message has been sent successfully! We'll get back to you soon.",
       });
-      
+
       // Reset form
       setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
       });
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
       setSubmitStatus({
         success: false,
-        message: 'Failed to send message. Please try again later.',
+        message: "Failed to send message. Please try again later.",
       });
     } finally {
       setIsSubmitting(false);
@@ -123,16 +126,16 @@ const ContactForm: React.FC = () => {
   };
 
   const inputClasses = `w-full px-4 py-3 rounded-lg border ${
-    theme === 'dark'
-      ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500'
-      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500'
+    theme === "dark"
+      ? "bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+      : "bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
   } transition-colors`;
 
   const labelClasses = `block text-sm font-medium mb-1 ${
-    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+    theme === "dark" ? "text-gray-300" : "text-gray-700"
   }`;
 
-  const errorClasses = 'mt-1 text-sm text-red-500';
+  const errorClasses = "mt-1 text-sm text-red-500";
 
   return (
     <motion.div
@@ -140,29 +143,29 @@ const ContactForm: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       className={`p-6 rounded-2xl ${
-        theme === 'dark' ? 'bg-gray-800/50' : 'bg-white shadow-lg'
+        theme === "dark" ? "bg-gray-800/50" : "bg-white shadow-lg"
       }`}
     >
       <h2
         className={`text-2xl font-bold mb-6 ${
-          theme === 'dark' ? 'text-white' : 'text-gray-900'
+          theme === "dark" ? "text-white" : "text-gray-900"
         }`}
       >
         Send us a Message
       </h2>
-      
+
       {submitStatus && (
         <div
           className={`p-4 mb-6 rounded-lg ${
             submitStatus.success
-              ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-              : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+              : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
           }`}
         >
           {submitStatus.message}
         </div>
       )}
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -176,13 +179,15 @@ const ContactForm: React.FC = () => {
               value={formData.name}
               onChange={handleChange}
               className={`${inputClasses} ${
-                errors.name ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+                errors.name
+                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                  : ""
               }`}
               placeholder="John Doe"
             />
             {errors.name && <p className={errorClasses}>{errors.name}</p>}
           </div>
-          
+
           <div>
             <label htmlFor="email" className={labelClasses}>
               Email Address *
@@ -194,14 +199,16 @@ const ContactForm: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               className={`${inputClasses} ${
-                errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+                errors.email
+                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                  : ""
               }`}
               placeholder="you@example.com"
             />
             {errors.email && <p className={errorClasses}>{errors.email}</p>}
           </div>
         </div>
-        
+
         <div>
           <label htmlFor="subject" className={labelClasses}>
             Subject *
@@ -212,7 +219,9 @@ const ContactForm: React.FC = () => {
             value={formData.subject}
             onChange={handleChange}
             className={`${inputClasses} ${
-              errors.subject ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+              errors.subject
+                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                : ""
             }`}
           >
             <option value="">Select a subject</option>
@@ -224,7 +233,7 @@ const ContactForm: React.FC = () => {
           </select>
           {errors.subject && <p className={errorClasses}>{errors.subject}</p>}
         </div>
-        
+
         <div>
           <label htmlFor="message" className={labelClasses}>
             Your Message *
@@ -236,36 +245,44 @@ const ContactForm: React.FC = () => {
             value={formData.message}
             onChange={handleChange}
             className={`${inputClasses} ${
-              errors.message ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+              errors.message
+                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                : ""
             }`}
             placeholder="How can we help you?"
           ></textarea>
           {errors.message && <p className={errorClasses}>{errors.message}</p>}
         </div>
-        
+
         <div className="pt-2">
           <button
             type="submit"
             disabled={isSubmitting}
             className={`w-full py-3 px-6 rounded-lg font-semibold text-lg transition-colors ${
               isSubmitting
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-90'
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-90"
             }`}
           >
-            {isSubmitting ? 'Sending...' : 'Send Message'}
+            {isSubmitting ? "Sending..." : "Send Message"}
           </button>
         </div>
       </form>
-      
+
       <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-        <h3 className={`text-lg font-semibold mb-4 ${
-          theme === 'dark' ? 'text-white' : 'text-gray-900'
-        }`}>
+        <h3
+          className={`text-lg font-semibold mb-4 ${
+            theme === "dark" ? "text-white" : "text-gray-900"
+          }`}
+        >
           Contact Information
         </h3>
         <div className="space-y-3">
-          <p className={`flex items-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p
+            className={`flex items-center ${
+              theme === "dark" ? "text-gray-300" : "text-gray-600"
+            }`}
+          >
             <svg
               className="w-5 h-5 mr-3 text-cyan-500"
               fill="none"
@@ -288,7 +305,11 @@ const ContactForm: React.FC = () => {
             </svg>
             123 AI Street, Tech City, TC 10001
           </p>
-          <p className={`flex items-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p
+            className={`flex items-center ${
+              theme === "dark" ? "text-gray-300" : "text-gray-600"
+            }`}
+          >
             <svg
               className="w-5 h-5 mr-3 text-cyan-500"
               fill="none"
@@ -305,7 +326,11 @@ const ContactForm: React.FC = () => {
             </svg>
             info@kic113.com
           </p>
-          <p className={`flex items-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p
+            className={`flex items-center ${
+              theme === "dark" ? "text-gray-300" : "text-gray-600"
+            }`}
+          >
             <svg
               className="w-5 h-5 mr-3 text-cyan-500"
               fill="none"

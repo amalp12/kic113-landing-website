@@ -1,8 +1,3 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Facebook, Twitter, Linkedin, Mail } from "lucide-react";
-import { useTheme } from "../context/ThemeContext";
-import { links } from "../constants/links";
 import { motion } from "framer-motion";
 
 const Footer = () => {

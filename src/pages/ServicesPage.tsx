@@ -1,8 +1,6 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { Shield, Star, Sparkles, Zap, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { services } from "../constants/services";
-import { useTheme } from "../context/ThemeContext";
 const ServicesPage = () => {
   const variants = {
     initial: { opacity: 0, y: 50 },

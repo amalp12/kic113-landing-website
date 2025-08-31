@@ -1,15 +1,5 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  CheckCircle,
-  AlertCircle,
-} from "lucide-react";
-import { useTheme } from "../context/ThemeContext";
-import ContactForm from "../components/ContactForm";
+import { useState } from "react";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({

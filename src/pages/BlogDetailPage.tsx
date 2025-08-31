@@ -1,21 +1,5 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  ArrowLeft,
-  Calendar,
-  User,
-  Tag,
-  Clock,
-  Share2,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Link as LinkIcon,
-  ChevronLeft,
-} from "lucide-react";
-import { blogContent, blogPosts } from "../constants/blog";
-import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
+import { ChevronLeft, Facebook, Linkedin, Twitter } from "lucide-react";
 
 const BlogDetailPage = ({ post, navigate }) => {
   if (!post) {

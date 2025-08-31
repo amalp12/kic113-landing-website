@@ -1,5 +1,3 @@
-import { Clipboard, Lightbulb } from "lucide-react";
-
 export const blogPosts = [
   {
     id: 1,

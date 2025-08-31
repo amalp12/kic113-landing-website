@@ -1,17 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Star,
-  ChevronLeft,
-  ChevronRight,
-  Quote,
-  Users,
-  Briefcase,
-  Award,
-} from "lucide-react";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef, useState } from "react";
 import { testimonials } from "../constants/testimonials";
-import { useTheme } from "../context/ThemeContext";
-import { useRef } from "react";
 
 const TestimonialsPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

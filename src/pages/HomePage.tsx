@@ -1,13 +1,10 @@
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import HeroSection from "../components/sections/HeroSection";
-import FeaturedServices from "../components/sections/FeaturedServices";
-import BlogSection from "../components/sections/BlogSection";
-import TestimonialsSection from "../components/sections/TestimonialsSection";
 import { blogPosts } from "@/constants/blog";
 import { testimonials } from "@/constants/testimonials";
+import { motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef, useState } from "react";
+import FeaturedServices from "../components/sections/FeaturedServices";
+import HeroSection from "../components/sections/HeroSection";
 const LatestInsights = ({ navigate, onBlogClick }) => {
   const containerVariants = {
     hidden: { opacity: 0 },

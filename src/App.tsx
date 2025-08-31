@@ -1,36 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Sparkles,
-  Zap,
-  Shield,
-  Star,
-  BookOpen,
-  Mail,
-  Users,
-  Moon,
-  Sun,
-  Facebook,
-  Twitter,
-  Linkedin,
-  ArrowRight,
-  Menu,
-  X,
-  ChevronLeft,
-  ChevronRight,
-  Clipboard,
-  Lightbulb,
-} from "lucide-react";
-import HomePage from "./pages/HomePage";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import { blogContent } from "./constants/blog";
+import BlogDetailPage from "./pages/BlogDetailPage";
 import BlogPage from "./pages/BlogPage";
 import ContactPage from "./pages/ContactPage";
+import HomePage from "./pages/HomePage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ServicesPage from "./pages/ServicesPage";
 import TestimonialsPage from "./pages/TestimonialsPage";
-import BlogDetailPage from "./pages/BlogDetailPage";
-import { blogContent } from "./constants/blog";
 
 const pageVariants = {
   initial: { opacity: 0, x: -50 },

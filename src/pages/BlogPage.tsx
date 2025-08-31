@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Search, Calendar, Tag, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { useState } from "react";
 import { blogPosts } from "../constants/blog";
-import { useTheme } from "../context/ThemeContext";
 
 const BlogPage = ({ navigate, onBlogClick }) => {
   const [activeTab, setActiveTab] = useState("all");
