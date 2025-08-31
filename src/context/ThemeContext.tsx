@@ -23,7 +23,10 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
   );
 
   useEffect(() => {
-    // document.documentElement.className = theme;
+    // Apply theme class to root element
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
