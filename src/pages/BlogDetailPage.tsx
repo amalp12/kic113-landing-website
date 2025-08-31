@@ -90,8 +90,12 @@ const BlogDetailPage = ({ post, navigate }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.5 }}
-          className={`prose max-w-none leading-relaxed
-            ${theme === "dark" ? "prose-invert" : "prose"}`}
+          className={`prose max-w-none leading-relaxed text-foreground
+            ${
+              theme === "dark"
+                ? "prose-invert prose-headings:text-white prose-p:text-gray-300"
+                : "prose"
+            }`}
           dangerouslySetInnerHTML={{ __html: post.content }}
         ></motion.div>
 
