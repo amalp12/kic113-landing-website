@@ -127,15 +127,15 @@ const ContactForm: React.FC = () => {
 
   const inputClasses = `w-full px-4 py-3 rounded-lg border ${
     theme === "dark"
-      ? "bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
-      : "bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
-  } transition-colors`;
+      ? "bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30"
+      : "bg-white border-gray-200 text-gray-900 placeholder-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30"
+  } transition-all duration-200 ease-out`;
 
-  const labelClasses = `block text-sm font-medium mb-1 ${
+  const labelClasses = `block text-sm font-medium mb-2 ${
     theme === "dark" ? "text-gray-300" : "text-gray-700"
   }`;
 
-  const errorClasses = "mt-1 text-sm text-red-500";
+  const errorClasses = "mt-1.5 text-sm text-red-500";
 
   return (
     <motion.div
@@ -167,105 +167,96 @@ const ContactForm: React.FC = () => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label htmlFor="name" className={labelClasses}>
-              Full Name *
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label htmlFor="name" className={labelClasses}>
+                Full Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className={`${inputClasses} ${errors.name ? "border-red-500 focus:border-red-500 focus:ring-red-500/30" : ""}`}
+                placeholder="John Doe"
+              />
+              {errors.name && <p className={errorClasses}>{errors.name}</p>}
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="email" className={labelClasses}>
+                Email Address <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={`${inputClasses} ${errors.email ? "border-red-500 focus:border-red-500 focus:ring-red-500/30" : ""}`}
+                placeholder="you@example.com"
+              />
+              {errors.email && <p className={errorClasses}>{errors.email}</p>}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="subject" className={labelClasses}>
+              Subject <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
-              value={formData.name}
+              id="subject"
+              name="subject"
+              value={formData.subject}
               onChange={handleChange}
-              className={`${inputClasses} ${
-                errors.name
-                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                  : ""
-              }`}
-              placeholder="John Doe"
+              className={`${inputClasses} ${errors.subject ? "border-red-500 focus:border-red-500 focus:ring-red-500/30" : ""}`}
+              placeholder="How can we help?"
             />
-            {errors.name && <p className={errorClasses}>{errors.name}</p>}
+            {errors.subject && <p className={errorClasses}>{errors.subject}</p>}
           </div>
 
-          <div>
-            <label htmlFor="email" className={labelClasses}>
-              Email Address *
+          <div className="space-y-2">
+            <label htmlFor="message" className={labelClasses}>
+              Your Message <span className="text-red-500">*</span>
             </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
+            <textarea
+              id="message"
+              name="message"
+              rows={5}
+              value={formData.message}
               onChange={handleChange}
-              className={`${inputClasses} ${
-                errors.email
-                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                  : ""
-              }`}
-              placeholder="you@example.com"
-            />
-            {errors.email && <p className={errorClasses}>{errors.email}</p>}
+              className={`${inputClasses} min-h-[120px] resize-y ${errors.message ? "border-red-500 focus:border-red-500 focus:ring-red-500/30" : ""}`}
+              placeholder="Tell us more about your project or inquiry..."
+            ></textarea>
+            {errors.message && <p className={errorClasses}>{errors.message}</p>}
           </div>
-        </div>
 
-        <div>
-          <label htmlFor="subject" className={labelClasses}>
-            Subject *
-          </label>
-          <select
-            id="subject"
-            name="subject"
-            value={formData.subject}
-            onChange={handleChange}
-            className={`${inputClasses} ${
-              errors.subject
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : ""
-            }`}
-          >
-            <option value="">Select a subject</option>
-            <option value="General Inquiry">General Inquiry</option>
-            <option value="Sales">Sales</option>
-            <option value="Support">Support</option>
-            <option value="Partnership">Partnership</option>
-            <option value="Other">Other</option>
-          </select>
-          {errors.subject && <p className={errorClasses}>{errors.subject}</p>}
-        </div>
-
-        <div>
-          <label htmlFor="message" className={labelClasses}>
-            Your Message *
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            rows={5}
-            value={formData.message}
-            onChange={handleChange}
-            className={`${inputClasses} ${
-              errors.message
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : ""
-            }`}
-            placeholder="How can we help you?"
-          ></textarea>
-          {errors.message && <p className={errorClasses}>{errors.message}</p>}
-        </div>
-
-        <div className="pt-2">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className={`w-full py-3 px-6 rounded-lg font-semibold text-lg transition-colors ${
-              isSubmitting
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-90"
-            }`}
-          >
-            {isSubmitting ? "Sending..." : "Send Message"}
-          </button>
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={`w-full py-3.5 px-6 rounded-lg font-semibold text-base transition-all duration-200 ease-out ${
+                isSubmitting
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:shadow-md hover:shadow-cyan-500/20 hover:-translate-y-0.5 active:translate-y-0"
+              }`}
+            >
+              {isSubmitting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Sending...
+                </span>
+              ) : (
+                "Send Message"
+              )}
+            </button>
+          </div>
         </div>
       </form>
 
