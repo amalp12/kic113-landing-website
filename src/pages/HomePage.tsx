@@ -172,7 +172,7 @@ const TestimonialSlider = () => {
         </p>
       </motion.div>
 
-      <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-xl z-10">
+      <div className="relative w-full max-w-5xl mx-auto overflow-hidden">
         <div className="flex">
           <motion.div
             className="flex w-full"
@@ -198,21 +198,71 @@ const TestimonialSlider = () => {
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
-                className="w-full flex-shrink-0 p-8 relative"
+                className="w-full flex-shrink-0 px-8 py-12 relative group"
                 variants={testimonialVariants}
-                initial="initial"
-                animate={currentIndex === index ? "animate" : "initial"}
               >
+                {/* Left Navigation Arrow - Only show on hover */}
                 <div
-                  className={`p-8 rounded-xl relative border transition-colors duration-300
-                  ${
+                  className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                    currentIndex === 0 ? "cursor-not-allowed" : "cursor-pointer"
+                  }`}
+                  onClick={currentIndex === 0 ? undefined : goToPrev}
+                >
+                  <div
+                    className={`p-2 rounded-full ${
+                      theme === "dark"
+                        ? "bg-white/20 hover:bg-white/40"
+                        : "bg-gray-800/20 hover:bg-gray-800/40"
+                    }`}
+                  >
+                    <ChevronLeft
+                      size={24}
+                      className={
+                        theme === "dark" ? "text-white" : "text-gray-800"
+                      }
+                    />
+                  </div>
+                </div>
+
+                {/* Right Navigation Arrow - Only show on hover */}
+                <div
+                  className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                    currentIndex === testimonials.length - 1
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer"
+                  }`}
+                  onClick={
+                    currentIndex === testimonials.length - 1
+                      ? undefined
+                      : goToNext
+                  }
+                >
+                  <div
+                    className={`p-2 rounded-full ${
+                      theme === "dark"
+                        ? "bg-white/20 hover:bg-white/40"
+                        : "bg-gray-800/20 hover:bg-gray-800/40"
+                    }`}
+                  >
+                    <ChevronRight
+                      size={24}
+                      className={
+                        theme === "dark" ? "text-white" : "text-gray-800"
+                      }
+                    />
+                  </div>
+                </div>
+
+                {/* Testimonial Card */}
+                <div
+                  className={`p-8 rounded-xl relative border transition-all duration-300 hover:shadow-lg ${
                     testimonial.featured
                       ? `${featuredBorder} ${featuredBg} shadow-purple-glow`
                       : `${cardBorder} ${cardBg}`
                   }`}
                 >
                   <motion.div
-                    className="absolute inset-0 rounded-xl"
+                    className="absolute inset-0 rounded-xl pointer-events-none"
                     initial={{ opacity: 0 }}
                     animate={testimonial.featured ? { opacity: 1 } : {}}
                     transition={{
@@ -221,48 +271,21 @@ const TestimonialSlider = () => {
                       ease: "easeInOut",
                     }}
                     style={{ background: neonGlow }}
-                  ></motion.div>
-                  <p className="relative z-10 text-xl italic text-text-primary mb-4">
-                    "{testimonial.quote}"
-                  </p>
-                  <p className={`relative z-10 font-semibold ${authorColor}`}>
-                    {testimonial.author}
-                  </p>
+                  />
+                  <div className="relative z-10">
+                    <p className="text-xl italic text-text-primary mb-6">
+                      "{testimonial.quote}"
+                    </p>
+                    <p className={`font-semibold ${authorColor}`}>
+                      {testimonial.author}
+                    </p>
+                    {testimonial.role && (
+                      <p className="text-sm text-text-secondary mt-1">
+                        {testimonial.role}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                {index === currentIndex && (
-                  <>
-                    <motion.button
-                      onClick={goToPrev}
-                      className={`absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-full backdrop-blur-sm transition-colors duration-300
-                      ${
-                        theme === "dark"
-                          ? "bg-white/20 text-white hover:bg-white/40"
-                          : "bg-gray-800/20 text-white hover:bg-gray-800/40"
-                      }`}
-                      variants={navButtonVariants}
-                      initial="hidden"
-                      animate="visible"
-                      whileHover="hover"
-                    >
-                      <ChevronLeft size={24} />
-                    </motion.button>
-                    <motion.button
-                      onClick={goToNext}
-                      className={`absolute right-0 top-1/2 -translate-y-1/2 p-2 rounded-full backdrop-blur-sm transition-colors duration-300
-                      ${
-                        theme === "dark"
-                          ? "bg-white/20 text-white hover:bg-white/40"
-                          : "bg-gray-800/20 text-white hover:bg-gray-800/40"
-                      }`}
-                      variants={navButtonVariants}
-                      initial="hidden"
-                      animate="visible"
-                      whileHover="hover"
-                    >
-                      <ChevronRight size={24} />
-                    </motion.button>
-                  </>
-                )}
               </motion.div>
             ))}
           </motion.div>
