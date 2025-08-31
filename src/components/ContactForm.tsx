@@ -138,7 +138,8 @@ const ContactForm: React.FC = () => {
         subject: formData.subject,
         message: formData.message,
         phone: formData.phoneNumber || "Not provided",
-        time: new Date().toISOString(),
+        // make this in zoned date time +5:30
+        time: new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
       };
 
       const data = {
@@ -304,26 +305,38 @@ const ContactForm: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className={labelClasses}>Phone Number (Optional)</label>
-              <div className={`relative ${inputClasses} p-0 ${
-                errors.phoneNumber 
-                  ? "border-red-500 focus-within:border-red-500 focus-within:ring-1 focus-within:ring-red-500/30" 
-                  : ""
-              }`}>
+              <div
+                className={`relative ${inputClasses} p-0 ${
+                  errors.phoneNumber
+                    ? "border-red-500 focus-within:border-red-500 focus-within:ring-1 focus-within:ring-red-500/30"
+                    : ""
+                }`}
+              >
                 <PhoneInput
                   international
                   defaultCountry="US"
                   value={formData.phoneNumber}
                   onChange={(value) =>
-                    setFormData((prev) => ({ ...prev, phoneNumber: value || "" }))
+                    setFormData((prev) => ({
+                      ...prev,
+                      phoneNumber: value || "",
+                    }))
                   }
                   className="w-full"
                   style={{
-                    '--PhoneInputCountrySelectArrow-color': theme === 'dark' ? '#9CA3AF' : '#6B7280',
-                    '--PhoneInput-color': theme === 'dark' ? '#E5E7EB' : '#111827',
-                    '--PhoneInputCountryFlag-borderColor': theme === 'dark' ? '#4B5563' : '#D1D5DB',
+                    "--PhoneInputCountrySelectArrow-color":
+                      theme === "dark" ? "#9CA3AF" : "#6B7280",
+                    "--PhoneInput-color":
+                      theme === "dark" ? "#E5E7EB" : "#111827",
+                    "--PhoneInputCountryFlag-borderColor":
+                      theme === "dark" ? "#4B5563" : "#D1D5DB",
                   }}
                   numberInputProps={{
-                    className: `w-full bg-transparent border-0 focus:ring-0 py-3 px-4 ${theme === 'dark' ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`
+                    className: `w-full bg-transparent border-0 focus:ring-0 py-3 px-4 ${
+                      theme === "dark"
+                        ? "text-white placeholder-gray-400"
+                        : "text-gray-900 placeholder-gray-500"
+                    }`,
                   }}
                 />
               </div>
