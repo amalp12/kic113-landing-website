@@ -1,6 +1,8 @@
+import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
 
 const PrivacyPolicyPage = () => {
+  const { theme } = useTheme();
   const sectionVariants = {
     initial: { opacity: 0, y: 50 },
     whileInView: { opacity: 1, y: 0 },
@@ -34,7 +36,6 @@ const PrivacyPolicyPage = () => {
     },
   ];
 
-  const theme = document.documentElement.className;
   const sectionBg = theme === "dark" ? "bg-gray-900" : "bg-white";
   const sectionBorder =
     theme === "dark" ? "border-gray-700" : "border-gray-300";

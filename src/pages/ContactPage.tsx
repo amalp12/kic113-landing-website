@@ -1,7 +1,9 @@
+import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
 const ContactPage = () => {
+  const { theme } = useTheme();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,7 +23,6 @@ const ContactPage = () => {
     setIsSubmitted(true);
   };
 
-  const theme = document.documentElement.className;
   const formBg = theme === "dark" ? "bg-gray-900" : "bg-white";
   const formBorder =
     theme === "dark" ? "border-cyan-500/20" : "border-cyan-600/20";

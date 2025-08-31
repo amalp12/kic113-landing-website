@@ -1,7 +1,8 @@
+import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
 
 const Footer = () => {
-  const theme = document.documentElement.className;
+  const { theme } = useTheme();
   const footerBg = theme === "dark" ? "bg-gray-950/80" : "bg-gray-50/80";
   const footerTextColor = theme === "dark" ? "text-gray-400" : "text-gray-600";
 

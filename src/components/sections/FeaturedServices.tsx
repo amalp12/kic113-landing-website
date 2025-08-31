@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { services } from "../../constants/services";
+import { useTheme } from "@/context/ThemeContext";
 
 const ServiceCard = ({ service, index }) => {
-  const theme = document.documentElement.className;
+  const { theme } = useTheme();
   const cardBg = theme === "dark" ? "bg-gray-900" : "bg-white";
   const cardBorder =
     theme === "dark"
@@ -101,7 +102,7 @@ const ServiceCard = ({ service, index }) => {
 };
 
 const FeaturedServices = () => {
-  const theme = document.documentElement.className;
+  const { theme } = useTheme();
   const cardBg = theme === "dark" ? "bg-gray-900" : "bg-gray-100";
 
   return (

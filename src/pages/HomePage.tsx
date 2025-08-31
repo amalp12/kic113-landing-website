@@ -5,7 +5,9 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 import FeaturedServices from "../components/sections/FeaturedServices";
 import HeroSection from "../components/sections/HeroSection";
+import { useTheme } from "@/context/ThemeContext";
 const LatestInsights = ({ navigate, onBlogClick }) => {
+  const { theme } = useTheme();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -21,7 +23,6 @@ const LatestInsights = ({ navigate, onBlogClick }) => {
     visible: { opacity: 1, y: 0 },
   };
 
-  const theme = document.documentElement.className;
   const cardBg = theme === "dark" ? "bg-gray-900" : "bg-white";
   const linkColor = theme === "dark" ? "text-cyan-400" : "text-cyan-600";
   const hoverLinkColor =
@@ -97,10 +98,10 @@ const LatestInsights = ({ navigate, onBlogClick }) => {
 };
 
 const TestimonialSlider = () => {
+  const { theme } = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
   const sliderRef = useRef(null);
 
-  const theme = document.documentElement.className;
   const cardBg = theme === "dark" ? "bg-gray-900" : "bg-white";
   const cardBorder = theme === "dark" ? "border-gray-700" : "border-gray-300";
   const featuredBorder =

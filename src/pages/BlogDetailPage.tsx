@@ -1,3 +1,4 @@
+import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
 import { ChevronLeft, Facebook, Linkedin, Twitter } from "lucide-react";
 
@@ -22,6 +23,8 @@ const BlogDetailPage = ({ post, navigate }) => {
   }
 
   const handleCopyToClipboard = () => {
+    const { theme } = useTheme();
+
     const textToCopy = `${post.title} by ${
       post.author
     }\n\n${post.content.replace(/<[^>]*>/g, "")}`;
@@ -38,7 +41,6 @@ const BlogDetailPage = ({ post, navigate }) => {
     document.body.removeChild(textarea);
   };
 
-  const theme = document.documentElement.className;
   const backButtonColor = theme === "dark" ? "text-cyan-400" : "text-cyan-600";
   const backButtonHover =
     theme === "dark" ? "hover:text-white" : "hover:text-gray-900";

@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import { useTheme } from "./context/ThemeContext";
 import { blogContent } from "./constants/blog";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import BlogPage from "./pages/BlogPage";
@@ -18,23 +19,10 @@ const pageVariants = {
 };
 
 const App = () => {
+  const { theme, toggleTheme } = useTheme();
   const [currentPage, setCurrentPage] = useState("home");
-  const [theme, setTheme] = useState("dark");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeBlog, setActiveBlog] = useState(null);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    setTheme(savedTheme);
-    document.documentElement.className = savedTheme;
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    document.documentElement.className = newTheme;
-  };
 
   const navigate = (page, params = {}) => {
     setCurrentPage(page);

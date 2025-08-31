@@ -2,8 +2,10 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { blogPosts } from "../constants/blog";
+import { useTheme } from "@/context/ThemeContext";
 
 const BlogPage = ({ navigate, onBlogClick }) => {
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState("all");
 
   const containerVariants = {
@@ -21,7 +23,6 @@ const BlogPage = ({ navigate, onBlogClick }) => {
     visible: { opacity: 1, y: 0, scale: 1 },
   };
 
-  const theme = document.documentElement.className;
   const cardBg = theme === "dark" ? "bg-gray-900" : "bg-white";
   const linkColor = theme === "dark" ? "text-cyan-400" : "text-cyan-600";
   const hoverLinkColor =

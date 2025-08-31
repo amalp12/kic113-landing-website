@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { services } from "../constants/services";
+import { useTheme } from "../context/ThemeContext";
 const ServicesPage = () => {
+  const { theme } = useTheme();
   const variants = {
     initial: { opacity: 0, y: 50 },
     animate: { opacity: 1, y: 0 },
@@ -12,7 +14,6 @@ const ServicesPage = () => {
     animate: { opacity: 1, x: 0 },
   };
 
-  const theme = document.documentElement.className;
   const cardBg = theme === "dark" ? "bg-gray-900" : "bg-white";
   const cardBorder =
     theme === "dark" ? "border-cyan-500/30" : "border-cyan-600/30";

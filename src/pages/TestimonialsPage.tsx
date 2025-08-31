@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 import { testimonials } from "../constants/testimonials";
+import { useTheme } from "../context/ThemeContext";
 
 const TestimonialsPage = () => {
+  const { theme } = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
   const sliderRef = useRef(null);
-
-  const theme = document.documentElement.className;
   const cardBg = theme === "dark" ? "bg-gray-900" : "bg-white";
   const cardBorder = theme === "dark" ? "border-gray-700" : "border-gray-300";
   const featuredBorder =
