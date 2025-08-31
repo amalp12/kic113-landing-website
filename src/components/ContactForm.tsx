@@ -1,19 +1,24 @@
+import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { toast } from "react-toast";
 import { useTheme } from "../context/ThemeContext";
-import axios from "axios";
-import { toast } from 'react-toast';
 
 // Simple toast wrapper for consistent styling
-const showToast = (message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info') => {
+const showToast = (
+  message: string,
+  type: "success" | "error" | "warning" | "info" = "info"
+) => {
   switch (type) {
-    case 'success':
+    case "success":
       toast.success(message);
       break;
-    case 'error':
+    case "error":
       toast.error(message);
       break;
-    case 'warning':
+    case "warning":
       toast.warn(message);
       break;
     default:
@@ -37,6 +42,7 @@ interface FormData {
   email: string;
   subject: string;
   message: string;
+  phoneNumber?: string;
 }
 
 interface FormErrors {
@@ -44,6 +50,7 @@ interface FormErrors {
   email?: string;
   subject?: string;
   message?: string;
+  phoneNumber?: string;
 }
 
 const ContactForm: React.FC = () => {
@@ -53,6 +60,7 @@ const ContactForm: React.FC = () => {
     email: "",
     subject: "",
     message: "",
+    phoneNumber: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -112,15 +120,15 @@ const ContactForm: React.FC = () => {
     e.preventDefault();
 
     if (!validateForm()) {
-      showToast("Please fill in all required fields correctly.", 'warning');
+      showToast("Please fill in all required fields correctly.", "warning");
       return;
     }
 
     setIsSubmitting(true);
     setSubmitStatus(null);
-    
+
     // Show loading state
-    showToast("Sending your message...", 'info');
+    showToast("Sending your message...", "info");
 
     try {
       const templateParams = {
@@ -129,28 +137,34 @@ const ContactForm: React.FC = () => {
         to_name: "Admin",
         subject: formData.subject,
         message: formData.message,
+        phone: formData.phoneNumber || "Not provided",
+        time: new Date().toISOString(),
       };
 
       const data = {
-        service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID || '',
-        template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '',
-        user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '',
+        service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID || "",
+        template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "",
+        user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "",
         template_params: templateParams,
       };
 
-      await axios.post('https://api.emailjs.com/api/v1.0/email/send', data, {
+      await axios.post("https://api.emailjs.com/api/v1.0/email/send", data, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         timeout: 10000, // 10 seconds timeout
       });
 
       // Show success message
-      showToast("Message sent successfully! We'll get back to you soon.", 'success');
+      showToast(
+        "Message sent successfully! We'll get back to you soon.",
+        "success"
+      );
 
       setSubmitStatus({
         success: true,
-        message: "Your message has been sent successfully! We'll get back to you soon.",
+        message:
+          "Your message has been sent successfully! We'll get back to you soon.",
       });
 
       // Reset form
@@ -159,20 +173,23 @@ const ContactForm: React.FC = () => {
         email: "",
         subject: "",
         message: "",
+        phoneNumber: "",
       });
     } catch (error) {
       console.error("Error submitting form:", error);
-      
+
       let errorMessage = "Failed to send message. Please try again later.";
-      
+
       if (axios.isAxiosError(error)) {
-        if (error.code === 'ECONNABORTED') {
-          errorMessage = "Request timed out. Please check your connection and try again.";
+        if (error.code === "ECONNABORTED") {
+          errorMessage =
+            "Request timed out. Please check your connection and try again.";
         } else if (error.response) {
           // Handle specific error status codes from EmailJS
           switch (error.response.status) {
             case 400:
-              errorMessage = "Invalid request. Please check your form data and try again.";
+              errorMessage =
+                "Invalid request. Please check your form data and try again.";
               break;
             case 401:
               errorMessage = "Authentication failed. Please contact support.";
@@ -188,7 +205,7 @@ const ContactForm: React.FC = () => {
       }
 
       // Show error message
-      showToast(errorMessage, 'error');
+      showToast(errorMessage, "error");
 
       setSubmitStatus({
         success: false,
@@ -284,24 +301,58 @@ const ContactForm: React.FC = () => {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="subject" className={labelClasses}>
-              Subject <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              className={`${inputClasses} ${
-                errors.subject
-                  ? "border-red-500 focus:border-red-500 focus:ring-red-500/30"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className={labelClasses}>Phone Number (Optional)</label>
+              <div className={`relative ${inputClasses} p-0 ${
+                errors.phoneNumber 
+                  ? "border-red-500 focus-within:border-red-500 focus-within:ring-1 focus-within:ring-red-500/30" 
                   : ""
-              }`}
-              placeholder="How can we help?"
-            />
-            {errors.subject && <p className={errorClasses}>{errors.subject}</p>}
+              }`}>
+                <PhoneInput
+                  international
+                  defaultCountry="US"
+                  value={formData.phoneNumber}
+                  onChange={(value) =>
+                    setFormData((prev) => ({ ...prev, phoneNumber: value || "" }))
+                  }
+                  className="w-full"
+                  style={{
+                    '--PhoneInputCountrySelectArrow-color': theme === 'dark' ? '#9CA3AF' : '#6B7280',
+                    '--PhoneInput-color': theme === 'dark' ? '#E5E7EB' : '#111827',
+                    '--PhoneInputCountryFlag-borderColor': theme === 'dark' ? '#4B5563' : '#D1D5DB',
+                  }}
+                  numberInputProps={{
+                    className: `w-full bg-transparent border-0 focus:ring-0 py-3 px-4 ${theme === 'dark' ? 'text-white placeholder-gray-400' : 'text-gray-900 placeholder-gray-500'}`
+                  }}
+                />
+              </div>
+              {errors.phoneNumber && (
+                <p className={errorClasses}>{errors.phoneNumber}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="subject" className={labelClasses}>
+                Subject <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                className={`${inputClasses} ${
+                  errors.subject
+                    ? "border-red-500 focus:border-red-500 focus:ring-red-500/30"
+                    : ""
+                }`}
+                placeholder="How can we help?"
+              />
+              {errors.subject && (
+                <p className={errorClasses}>{errors.subject}</p>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">
