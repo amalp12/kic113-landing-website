@@ -1,6 +1,36 @@
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { useTheme } from "../context/ThemeContext";
+import axios from "axios";
+import { toast } from 'react-toast';
+
+// Simple toast wrapper for consistent styling
+const showToast = (message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info') => {
+  switch (type) {
+    case 'success':
+      toast.success(message);
+      break;
+    case 'error':
+      toast.error(message);
+      break;
+    case 'warning':
+      toast.warn(message);
+      break;
+    default:
+      toast(message);
+  }
+};
+
+// Extend the ImportMeta interface to include Vite's env variables
+declare global {
+  interface ImportMeta {
+    env: {
+      VITE_EMAILJS_SERVICE_ID?: string;
+      VITE_EMAILJS_TEMPLATE_ID?: string;
+      VITE_EMAILJS_PUBLIC_KEY?: string;
+    };
+  }
+}
 
 interface FormData {
   name: string;
@@ -82,29 +112,45 @@ const ContactForm: React.FC = () => {
     e.preventDefault();
 
     if (!validateForm()) {
+      showToast("Please fill in all required fields correctly.", 'warning');
       return;
     }
 
     setIsSubmitting(true);
     setSubmitStatus(null);
+    
+    // Show loading state
+    showToast("Sending your message...", 'info');
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        to_name: "Admin",
+        subject: formData.subject,
+        message: formData.message,
+      };
 
-      // In a real app, you would send the form data to your backend
-      // const response = await fetch('/api/contact', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData),
-      // });
+      const data = {
+        service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID || '',
+        template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '',
+        user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '',
+        template_params: templateParams,
+      };
 
-      // if (!response.ok) throw new Error('Failed to send message');
+      await axios.post('https://api.emailjs.com/api/v1.0/email/send', data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 10000, // 10 seconds timeout
+      });
+
+      // Show success message
+      showToast("Message sent successfully! We'll get back to you soon.", 'success');
 
       setSubmitStatus({
         success: true,
-        message:
-          "Your message has been sent successfully! We'll get back to you soon.",
+        message: "Your message has been sent successfully! We'll get back to you soon.",
       });
 
       // Reset form
@@ -116,9 +162,37 @@ const ContactForm: React.FC = () => {
       });
     } catch (error) {
       console.error("Error submitting form:", error);
+      
+      let errorMessage = "Failed to send message. Please try again later.";
+      
+      if (axios.isAxiosError(error)) {
+        if (error.code === 'ECONNABORTED') {
+          errorMessage = "Request timed out. Please check your connection and try again.";
+        } else if (error.response) {
+          // Handle specific error status codes from EmailJS
+          switch (error.response.status) {
+            case 400:
+              errorMessage = "Invalid request. Please check your form data and try again.";
+              break;
+            case 401:
+              errorMessage = "Authentication failed. Please contact support.";
+              break;
+            case 429:
+              errorMessage = "Too many requests. Please try again later.";
+              break;
+            case 500:
+              errorMessage = "Server error. Please try again later.";
+              break;
+          }
+        }
+      }
+
+      // Show error message
+      showToast(errorMessage, 'error');
+
       setSubmitStatus({
         success: false,
-        message: "Failed to send message. Please try again later.",
+        message: errorMessage,
       });
     } finally {
       setIsSubmitting(false);
@@ -179,7 +253,11 @@ const ContactForm: React.FC = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={`${inputClasses} ${errors.name ? "border-red-500 focus:border-red-500 focus:ring-red-500/30" : ""}`}
+                className={`${inputClasses} ${
+                  errors.name
+                    ? "border-red-500 focus:border-red-500 focus:ring-red-500/30"
+                    : ""
+                }`}
                 placeholder="John Doe"
               />
               {errors.name && <p className={errorClasses}>{errors.name}</p>}
@@ -195,7 +273,11 @@ const ContactForm: React.FC = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`${inputClasses} ${errors.email ? "border-red-500 focus:border-red-500 focus:ring-red-500/30" : ""}`}
+                className={`${inputClasses} ${
+                  errors.email
+                    ? "border-red-500 focus:border-red-500 focus:ring-red-500/30"
+                    : ""
+                }`}
                 placeholder="you@example.com"
               />
               {errors.email && <p className={errorClasses}>{errors.email}</p>}
@@ -212,7 +294,11 @@ const ContactForm: React.FC = () => {
               name="subject"
               value={formData.subject}
               onChange={handleChange}
-              className={`${inputClasses} ${errors.subject ? "border-red-500 focus:border-red-500 focus:ring-red-500/30" : ""}`}
+              className={`${inputClasses} ${
+                errors.subject
+                  ? "border-red-500 focus:border-red-500 focus:ring-red-500/30"
+                  : ""
+              }`}
               placeholder="How can we help?"
             />
             {errors.subject && <p className={errorClasses}>{errors.subject}</p>}
@@ -228,7 +314,11 @@ const ContactForm: React.FC = () => {
               rows={5}
               value={formData.message}
               onChange={handleChange}
-              className={`${inputClasses} min-h-[120px] resize-y ${errors.message ? "border-red-500 focus:border-red-500 focus:ring-red-500/30" : ""}`}
+              className={`${inputClasses} min-h-[120px] resize-y ${
+                errors.message
+                  ? "border-red-500 focus:border-red-500 focus:ring-red-500/30"
+                  : ""
+              }`}
               placeholder="Tell us more about your project or inquiry..."
             ></textarea>
             {errors.message && <p className={errorClasses}>{errors.message}</p>}
@@ -246,9 +336,25 @@ const ContactForm: React.FC = () => {
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   Sending...
                 </span>
