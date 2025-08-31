@@ -1,96 +1,103 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import { useTheme } from '../../context/ThemeContext';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { useTheme } from "../../context/ThemeContext";
+import { useNavigate } from "react-router-dom";
 
-const HeroSection: React.FC = () => {
-  const navigate = useNavigate();
-  const { theme } = useTheme();
-  const tagline = "AI for Food Brands: Revolutionizing Food Safety & Consumer Engagement";
+const HeroSection = ({ navigate }) => {
+  const tagline =
+    "AI for Food Brands: Revolutionizing Food Safety & Consumer Engagement";
+  const introText =
+    "Leverage cutting-edge AI to automate compliance, enhance transparency, and build lasting consumer trust. Our innovative solutions protect your brand and empower your business in a data-driven world.";
+  const [typedText, setTypedText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    let i = 0;
+    const typingInterval = setInterval(() => {
+      if (i < introText.length) {
+        setTypedText((prev) => prev + introText.charAt(i));
+        i++;
+      } else {
+        clearInterval(typingInterval);
+        setIsTyping(false);
+      }
+    }, 20);
+    return () => clearInterval(typingInterval);
+  }, []);
+
+  const buttonVariants = {
+    initial: { opacity: 0, scale: 0.8 },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        delay: 2,
+      },
+    },
+    pulse: {
+      scale: [1, 1.05, 1],
+      boxShadow: [
+        "0 0 0px rgba(0,0,0,0)",
+        "0 0 20px rgba(0, 255, 255, 0.5)",
+        "0 0 0px rgba(0,0,0,0)",
+      ],
+      transition: {
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  };
 
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className={`text-4xl md:text-6xl font-bold leading-tight mb-6 ${
-              theme === 'dark' ? 'text-white' : 'text-gray-900'
-            }`}
-          >
-            Transforming Food Safety with
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">
-              {' '}
-              AI Innovation
-            </span>
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className={`text-xl md:text-2xl mb-10 max-w-3xl mx-auto ${
-              theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-            }`}
-          >
-            {tagline}
-          </motion.p>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-col sm:flex-row justify-center gap-4"
-          >
-            <button
-              onClick={() => navigate('/services')}
-              className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg font-semibold text-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-            >
-              Explore Our Solutions
-              <ArrowRight className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => navigate('/contact')}
-              className={`px-8 py-4 rounded-lg font-semibold text-lg border-2 ${
-                theme === 'dark'
-                  ? 'border-cyan-500 text-cyan-400 hover:bg-cyan-500/10'
-                  : 'border-cyan-600 text-cyan-600 hover:bg-cyan-50'
-              } transition-colors`}
-            >
-              Contact Us
-            </button>
-          </motion.div>
-        </div>
+    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-hero-dark bg-cover bg-fixed"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-gray-950/50"></div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-20 relative"
+      <div className="relative z-10 text-center max-w-4xl px-4 mx-auto">
+        <motion.h1
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight tracking-tight"
         >
-          <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl">
-            <div className="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center">
-              <div className="text-center p-8">
-                <h3 className="text-2xl font-bold text-white mb-4">
-                  Experience the Future of Food Safety
-                </h3>
-                <p className="text-gray-300 mb-6">
-                  See how our AI solutions are transforming the food industry
-                </p>
-                <button className="px-6 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors">
-                  Watch Demo
-                </button>
-              </div>
-            </div>
-          </div>
-          
-          {/* Decorative elements */}
-          <div className="absolute -top-10 -left-10 w-40 h-40 bg-cyan-500/20 rounded-full filter blur-3xl -z-10"></div>
-          <div className="absolute -bottom-10 -right-10 w-60 h-60 bg-blue-500/20 rounded-full filter blur-3xl -z-10"></div>
-        </motion.div>
+          {tagline}
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+          className="text-lg sm:text-xl text-gray-300 mb-8"
+        >
+          {typedText}
+        </motion.p>
+
+        <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+          <motion.button
+            variants={buttonVariants}
+            initial="initial"
+            animate={["animate", "pulse"]}
+            onClick={() => navigate("services")}
+            className="group px-8 py-3 rounded-full text-lg font-semibold bg-cyan-600 text-white
+            relative overflow-hidden transition-all duration-500"
+          >
+            Explore Services
+          </motion.button>
+          <motion.button
+            variants={buttonVariants}
+            initial="initial"
+            animate="animate"
+            onClick={() => navigate("contact")}
+            className="group px-8 py-3 rounded-full text-lg font-semibold border-2 border-cyan-500 text-cyan-500
+            hover:bg-cyan-500 hover:text-white transition-colors duration-300"
+          >
+            Get in Touch
+          </motion.button>
+        </div>
       </div>
     </section>
   );
