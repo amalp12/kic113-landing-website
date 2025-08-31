@@ -1,0 +1,151 @@
+/* ==========================
+   Tailwind Directives
+========================== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================
+   Theme Variables
+========================== */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 191.2 91.2% 36.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 191.2 91.2% 36.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 191.2 91.2% 36.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 191.2 91.2% 36.3%;
+  }
+
+  /* Apply base styles */
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    border: 1px solid hsl(var(--border));
+  }
+}
+
+/* ==========================
+   Scrollbar Styles
+========================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-cyan-600/50 dark:bg-cyan-500/50 rounded-full hover:bg-cyan-600/70 dark:hover:bg-cyan-500/70;
+}
+
+/* ==========================
+   Animations
+========================== */
+.animate-in {
+  animation: animateIn 0.3s ease-in-out;
+}
+
+@keyframes animateIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================
+   Focus Styles
+========================== */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900;
+}
+
+/* ==========================
+   Typography (Prose)
+========================== */
+.prose {
+  @apply max-w-none text-gray-700 dark:text-gray-300;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply text-gray-900 dark:text-white font-bold mb-4 mt-8;
+}
+
+.prose h1 { @apply text-4xl md:text-5xl; }
+.prose h2 { @apply text-3xl md:text-4xl; }
+.prose h3 { @apply text-2xl md:text-3xl; }
+
+.prose p { @apply mb-4 leading-relaxed; }
+.prose a { @apply text-cyan-600 dark:text-cyan-400 hover:underline; }
+.prose ul,
+.prose ol { @apply mb-6 pl-6; }
+.prose li { @apply mb-2; }
+.prose blockquote { @apply border-l-4 border-cyan-500 pl-4 italic my-6; }
+
+/* ==========================
+   Form & Button Styles
+========================== */
+.input {
+  @apply w-full px-4 py-2 rounded-lg border border-border bg-white dark:bg-gray-800 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors;
+}
+
+.btn {
+  @apply px-6 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-primary {
+  @apply bg-cyan-600 hover:bg-cyan-700 text-white;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white;
+}
