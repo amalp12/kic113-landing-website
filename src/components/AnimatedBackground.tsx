@@ -158,10 +158,12 @@ const AnimatedBackground = () => {
 
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden">
+      <div className="absolute inset-0 bg-grid-white/[0.04] dark:bg-grid-gray-900/[0.05] [mask-image:linear-gradient(to_bottom,transparent_1px,white_1px)] [mask-size:40px_40px]" />
       <canvas
         ref={canvasRef}
         className="w-full h-full transition-colors duration-300"
       />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,hsl(var(--background))_70%)]" />
     </div>
   );
 };
