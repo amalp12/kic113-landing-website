@@ -22,7 +22,7 @@ const Footer = () => {
         }`}
       ></div>
       <div className="container mx-auto px-4 lg:px-8">
-        <p>&copy; 2024 KIC113. All rights reserved.</p>
+        <p>&copy; 2025 KIC113. All rights reserved.</p>
       </div>
     </motion.footer>
   );

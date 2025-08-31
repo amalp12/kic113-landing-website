@@ -11,7 +11,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: 1,
     title: "The Future of AI in Food Safety",
-    date: "Oct 26, 2024",
+    date: "Oct 26, 2025",
     author: "Alex Rivera",
     excerpt:
       "AI is set to revolutionize how we manage and ensure food safety...",
@@ -19,7 +19,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: 2,
     title: "How Blockchain Enhances Food Traceability",
-    date: "Oct 19, 2024",
+    date: "Oct 19, 2025",
     author: "Jordan K.",
     excerpt:
       "Combining AI with blockchain creates an immutable, transparent ledger...",
@@ -27,18 +27,19 @@ export const blogPosts: BlogPost[] = [
   {
     id: 3,
     title: "5 Ways to Improve Consumer Trust with AI",
-    date: "Oct 12, 2024",
+    date: "Oct 12, 2025",
     author: "Chris Evans",
     excerpt: "Building brand trust is crucial. AI can provide the tools to...",
   },
 ];
 
-export const blogContent: Record<number, Omit<BlogPost, 'id'>> = {
+export const blogContent: Record<number, Omit<BlogPost, "id">> = {
   1: {
     title: "The Future of AI in Food Safety",
-    date: "Oct 26, 2024",
+    date: "Oct 26, 2025",
     author: "Alex Rivera",
-    excerpt: "AI is set to revolutionize how we manage and ensure food safety...",
+    excerpt:
+      "AI is set to revolutionize how we manage and ensure food safety...",
     content: `
       <p>The food industry is on the cusp of a major transformation, with artificial intelligence leading the charge. AI-powered systems can now analyze vast datasets from supply chains, manufacturing processes, and consumer feedback to predict and prevent food safety issues before they occur. This proactive approach marks a significant shift from traditional, reactive methods.</p>
       <p>AI's ability to monitor real-time data from sensors and cameras allows for automated quality control, identifying contaminants or inconsistencies with a level of precision that human inspection cannot match. This not only reduces the risk of recalls but also minimizes waste and improves overall efficiency.</p>
@@ -48,9 +49,10 @@ export const blogContent: Record<number, Omit<BlogPost, 'id'>> = {
   },
   2: {
     title: "How Blockchain Enhances Food Traceability",
-    date: "Oct 19, 2024",
+    date: "Oct 19, 2025",
     author: "Jordan K.",
-    excerpt: "Combining AI with blockchain creates an immutable, transparent ledger...",
+    excerpt:
+      "Combining AI with blockchain creates an immutable, transparent ledger...",
     content: `
       <p>Blockchain technology offers an unprecedented level of transparency and security in food supply chains. By creating an immutable, decentralized ledger, every transaction and data point from farm to fork can be recorded and verified. This eliminates the risk of data tampering and provides a single, trustworthy source of truth.</p>
       <p>When combined with AI, blockchain's power is amplified. AI can analyze the data on the blockchain to identify inefficiencies, predict potential contamination sources, and streamline logistics. Consumers can simply scan a QR code to see the entire journey of their food, including its origin, processing history, and safety certifications. This transparency builds immense consumer trust and brand loyalty.</p>
@@ -58,7 +60,7 @@ export const blogContent: Record<number, Omit<BlogPost, 'id'>> = {
   },
   3: {
     title: "5 Ways to Improve Consumer Trust with AI",
-    date: "Oct 12, 2024",
+    date: "Oct 12, 2025",
     excerpt: "Building brand trust is crucial. AI can provide the tools to...",
     author: "Chris Evans",
     content: `
