@@ -1,8 +1,15 @@
 import { useTheme } from "@/context/ThemeContext";
 import { motion } from "framer-motion";
-import { ChevronLeft, Facebook, Linkedin, Twitter } from "lucide-react";
+import {
+  ChevronLeft,
+  Clipboard,
+  Facebook,
+  Linkedin,
+  Twitter,
+} from "lucide-react";
 
 const BlogDetailPage = ({ post, navigate }) => {
+  const { theme } = useTheme();
   if (!post) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
@@ -11,7 +18,7 @@ const BlogDetailPage = ({ post, navigate }) => {
           onClick={() => navigate("blog")}
           className={`mt-4 px-4 py-2 rounded-lg transition-colors duration-300
           ${
-            document.documentElement.className === "dark"
+            theme === "dark"
               ? "bg-cyan-600 text-white"
               : "bg-cyan-600 text-white"
           }`}
@@ -23,8 +30,6 @@ const BlogDetailPage = ({ post, navigate }) => {
   }
 
   const handleCopyToClipboard = () => {
-    const { theme } = useTheme();
-
     const textToCopy = `${post.title} by ${
       post.author
     }\n\n${post.content.replace(/<[^>]*>/g, "")}`;

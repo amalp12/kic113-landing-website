@@ -89,7 +89,6 @@ const ServicesPage = () => {
                       >
                         <ArrowRight size={20} />
                       </span>
-                      <q></q>
                       <span>{feature}</span>
                     </motion.li>
                   ))}
