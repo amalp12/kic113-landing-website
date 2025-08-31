@@ -1,28 +1,34 @@
 import { useTheme } from "../context/ThemeContext";
+import { BlogPost } from "../constants/blog";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { ChevronLeft, Clipboard } from "lucide-react";
 import {
-  ChevronLeft,
-  Clipboard,
-  Facebook,
-  Linkedin,
-  Twitter,
-} from "lucide-react";
-import { BlogPost } from "../constants/blog";
+  FaFacebook,
+  FaLinkedin,
+  FaXTwitter,
+  FaInstagram,
+} from "react-icons/fa6";
 
 interface BlogDetailPageProps {
-  post: Omit<BlogPost, 'id'>;
+  post: Omit<BlogPost, "id">;
   onBack: () => void;
 }
 
 const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ post, onBack }) => {
   const { theme } = useTheme();
   const navigate = useNavigate();
-  
+
   if (!post) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
-        <h1 className={`text-3xl ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Blog post not found.</h1>
+        <h1
+          className={`text-3xl ${
+            theme === "dark" ? "text-white" : "text-gray-900"
+          }`}
+        >
+          Blog post not found.
+        </h1>
         <button
           onClick={onBack}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors duration-300 ${
@@ -38,9 +44,11 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ post, onBack }) => {
   }
 
   const handleCopyToClipboard = () => {
-    const textToCopy = `${post.title} by ${
-      post.author
-    }\n\n${post.content.replace(/<[^>]*>/g, "")}`;
+    const content = post.content || "";
+    const textToCopy = `${post.title} by ${post.author}\n\n${content.replace(
+      /<[^>]*>/g,
+      ""
+    )}`;
     const textarea = document.createElement("textarea");
     textarea.value = textToCopy;
     document.body.appendChild(textarea);
@@ -52,6 +60,38 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ post, onBack }) => {
       console.error("Failed to copy text: ", err);
     }
     document.body.removeChild(textarea);
+  };
+
+  const shareOnSocialMedia = (platform: string) => {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(post.title);
+    const content = post.content || "";
+    const text = encodeURIComponent(
+      content.replace(/<[^>]*>/g, "").substring(0, 200)
+    );
+
+    let shareUrl = "";
+
+    switch (platform) {
+      case "facebook":
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${title}`;
+        break;
+      case "linkedin":
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}&summary=${text}`;
+        break;
+      case "x":
+        shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+        break;
+      case "instagram":
+        // Instagram doesn't support direct sharing of external content
+        // This will open the Instagram app or website
+        shareUrl = `https://www.instagram.com`;
+        break;
+      default:
+        return;
+    }
+
+    window.open(shareUrl, "_blank", "width=600,height=400");
   };
 
   const backButtonColor = theme === "dark" ? "text-cyan-400" : "text-cyan-600";
@@ -104,40 +144,54 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ post, onBack }) => {
                 ? "prose-invert prose-headings:text-white prose-p:text-gray-300"
                 : "prose"
             }`}
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: post.content || "" }}
         ></motion.div>
 
-        <div className="mt-8 flex items-center space-x-4">
-          <span className={shareButtonColor}>Share:</span>
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.2, y: -2 }}
-            className={`${socialIconColor} ${socialIconHover} transition-colors duration-300`}
-          >
-            <Facebook />
-          </motion.a>
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.2, y: -2 }}
-            className={`${socialIconColor} ${socialIconHover} transition-colors duration-300`}
-          >
-            <Twitter />
-          </motion.a>
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.2, y: -2 }}
-            className={`${socialIconColor} ${socialIconHover} transition-colors duration-300`}
-          >
-            <Linkedin />
-          </motion.a>
-          <motion.button
-            onClick={handleCopyToClipboard}
-            whileHover={{ scale: 1.2, y: -2 }}
-            className={`${socialIconColor} ${socialIconHover} transition-colors duration-300`}
-          >
-            <Clipboard />
-          </motion.button>
-        </div>
+        <motion.div className="flex items-center space-x-4 mt-8">
+          <p className={`${shareButtonColor} font-medium`}>Share:</p>
+          <div className="flex space-x-3">
+            <motion.button
+              onClick={() => shareOnSocialMedia("facebook")}
+              whileHover={{ scale: 1.1, y: -2 }}
+              className={`p-2 rounded-full ${socialIconColor} ${socialIconHover} transition-colors duration-300`}
+              aria-label="Share on Facebook"
+            >
+              <FaFacebook className="w-5 h-5" />
+            </motion.button>
+            <motion.button
+              onClick={() => shareOnSocialMedia("linkedin")}
+              whileHover={{ scale: 1.1, y: -2 }}
+              className={`p-2 rounded-full ${socialIconColor} ${socialIconHover} transition-colors duration-300`}
+              aria-label="Share on LinkedIn"
+            >
+              <FaLinkedin className="w-5 h-5" />
+            </motion.button>
+            <motion.button
+              onClick={() => shareOnSocialMedia("x")}
+              whileHover={{ scale: 1.1, y: -2 }}
+              className={`p-2 rounded-full ${socialIconColor} ${socialIconHover} transition-colors duration-300`}
+              aria-label="Share on X"
+            >
+              <FaXTwitter className="w-5 h-5" />
+            </motion.button>
+            <motion.button
+              onClick={() => shareOnSocialMedia("instagram")}
+              whileHover={{ scale: 1.1, y: -2 }}
+              className={`p-2 rounded-full ${socialIconColor} ${socialIconHover} transition-colors duration-300`}
+              aria-label="Share on Instagram"
+            >
+              <FaInstagram className="w-5 h-5" />
+            </motion.button>
+            <motion.button
+              onClick={handleCopyToClipboard}
+              whileHover={{ scale: 1.1, y: -2 }}
+              className={`p-2 rounded-full ${socialIconColor} ${socialIconHover} transition-colors duration-300`}
+              aria-label="Copy to clipboard"
+            >
+              <Clipboard size={20} />
+            </motion.button>
+          </div>
+        </motion.div>
       </div>
     </motion.div>
   );
