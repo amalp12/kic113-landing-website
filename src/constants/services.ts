@@ -15,7 +15,7 @@ const services: Service[] = [
     description:
       "Automate compliance checks and navigate complex food safety regulations with AI precision.",
     features: [
-      "Automated Hazard Analysis",
+      "Data with trusted source of truth",
       "Real-time Regulation Monitoring",
       "Compliance AI Assistant",
       "Compliance Update Notifications",
